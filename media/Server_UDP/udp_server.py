@@ -17,6 +17,7 @@ def send_udp():
     try:
         data = request.json
         ip_address = data['ip']
+        cmd = data['cmd']
         option = data['option']
         number1 = data['numbers'][0]
         number2 = data['numbers'][1]
@@ -29,7 +30,7 @@ def send_udp():
             return jsonify({'status': 'error', 'message': 'Dirección IP inválida'}), 400
         
         # Crear el mensaje a enviar
-        message = f"{option},{number1},{number2},{angle}"
+        message = f"{cmd},{option},{number1},{number2},{angle}"
         
         # Configurar el socket UDP
         sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)

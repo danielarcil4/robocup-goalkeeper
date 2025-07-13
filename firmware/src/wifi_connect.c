@@ -1,4 +1,5 @@
 #include "wifi_connect.h"
+#include "udp_server.h"
 
 /* WiFi station Example
 
@@ -10,6 +11,12 @@
 */
 const char *TAG = "wifi station";
 static int s_retry_num = 0;
+
+
+/* FreeRTOS event group to signal when we are connected*/
+EventGroupHandle_t s_wifi_event_group;
+
+
 void event_handler(void* arg, esp_event_base_t event_base,
                                 int32_t event_id, void* event_data)
 {
@@ -90,7 +97,6 @@ void wifi_init_sta(void)
         ESP_LOGE(TAG, "UNEXPECTED EVENT");
     }
 }
-     
 /*
 void app_main(void)
 {

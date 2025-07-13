@@ -4,7 +4,7 @@
 #include "driver/uart.h"
 
 #include "esp_timer.h"
-#include "types.h"
+#include "types_utils.h"
 #include "motor.h"
 #include "pid.h"
 #include "config_utils.h" ///< Configuration utilities
@@ -63,14 +63,15 @@ void vTaskControl(void *pvParameters) {
 
         for (int i = 0; i < 3; i++) {
             // Set motor speed based on PID output
-            motor_set_speed(&motor[i], out_pid_motor[i]);
+            motor_set_speed(&motor[i], MOTOR_DIRECTION_FORWARD(i)*out_pid_motor[i]);
         }
 
-        // Print the output every 20 ms
-        if ((timestamp_us % 20000) == 0) { // cada 20 ms
-            printf("I,%" PRIu32 ",%.4f,%.4f,%.4f,%.4f,%.4f,%.4f\r\n", timestamp_us, encoder[0].omega_rad, encoder[1].omega_rad, encoder[2].omega_rad, out_pid_motor[0], out_pid_motor[1], out_pid_motor[2]);
-        }
-        timestamp_us += CONTROL_TASK_PERIOD_MS * 1000; // Increment timestamp by task period in microseconds
+        // // Print the output every 20 ms
+        // if ((timestamp_us % 20000) == 0) { // cada 20 ms
+        //     printf("I,%" PRIu32 ",%.4f,%.4f,%.4f,%.4f,%.4f,%.4f\r\n", timestamp_us, encoder[0].omega_rad, encoder[1].omega_rad, encoder[2].omega_rad, out_pid_motor[0], out_pid_motor[1], out_pid_motor[2]);
+        // }
+
+        // timestamp_us += CONTROL_TASK_PERIOD_MS * 1000; // Increment timestamp by task period in microseconds
 
         // Wait before next check (optional)
         xTaskDelayUntil(&xLastWakeTime, pdMS_TO_TICKS(CONTROL_TASK_PERIOD_MS));
@@ -116,10 +117,8 @@ void vTaskUartHandler(void *arg) {
     }
 }
 
-
-
 void vTaskUartParser(void *arg) {
-    float setpoint;
+    float kp, ki, kd, setpoint;
     char parsed[128];
 
     xHandleParserTask = xTaskGetCurrentTaskHandle();
@@ -135,17 +134,21 @@ void vTaskUartParser(void *arg) {
                 strncpy(parsed, start, end - start);
                 parsed[end - start] = '\0';
 
-                if (sscanf(parsed, "%f", &setpoint) == 1) {
+                if (sscanf(parsed, "%f %f %f %f", &kp, &ki, &kd, &setpoint) == 4) {
                     if (xSemaphoreTake(xPidMutex, portMAX_DELAY) == pdTRUE) {
+                        pid_param.kp = kp / 100.0f;
+                        pid_param.ki = ki / 100.0f;
+                        pid_param.kd = kd / 100.0f;
                         pid_param.set_point = setpoint;
                         
+                        // Update each PID controller with the new parameters
                         for (int i = 0; i < 3; i++) {
                             pid_update_parameters(pid[i], &pid_param);
                         }
 
                         xSemaphoreGive(xPidMutex);
 
-                        printf("Updated PID: setpoint=%.2f\n", setpoint);
+                        printf("Updated PID: kp=%.2f, ki=%.2f, kd=%.2f, setpoint=%.2f\n", kp, ki, kd, setpoint);
                     } else {
                         printf("PID mutex busy.\n");
                     }
@@ -156,7 +159,7 @@ void vTaskUartParser(void *arg) {
                 printf("Value too long or malformed.\n");
             }
         } else {
-            printf("Expected format: {\"default\":\"setpoint\"}\n");
+            printf("Expected format: {\"default\":\"kp ki kd setpoint\"}\n");
         }
     }
 }

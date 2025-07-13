@@ -1,15 +1,24 @@
 import socket
+import struct
 
-UDP_IP = "0.0.0.0"  # Escuchar en todas las interfaces
-UDP_PORT = 12345
+MCAST_GRP = '224.5.23.2'
+MCAST_PORT = 10006
 
-sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-sock.bind((UDP_IP, UDP_PORT))
+# Crear socket UDP
+sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
 
-print(f"Escuchando en {UDP_IP}:{UDP_PORT}")
+# Permitir que varias aplicaciones escuchen en el mismo puerto
+sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+
+# En sistemas Linux suele funcionar enlazar a '' (todas las interfaces)
+sock.bind(('', MCAST_PORT))
+
+# Indicarle que se una al grupo multicast
+mreq = struct.pack("4sl", socket.inet_aton(MCAST_GRP), socket.INADDR_ANY)
+sock.setsockopt(socket.IPPROTO_IP, socket.IP_ADD_MEMBERSHIP, mreq)
+
+print("Esperando datos...")
 
 while True:
     data, addr = sock.recvfrom(1024)
-    print(f"Mensaje recibido de {addr}: {data.decode()}")
-    # Enviar confirmación
-    sock.sendto(b"Datos recibidos", addr)
+    print(f"Recibido {data} desde {addr}")

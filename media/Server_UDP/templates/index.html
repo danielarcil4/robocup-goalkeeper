@@ -83,6 +83,8 @@
     <div class="tab-container">
         <div class="tab active" onclick="openTab('tab1')">Configuración IP</div>
         <div class="tab" onclick="openTab('tab2')">Linea Recta</div>
+        <div class="tab" onclick="openTab('tab3')">Rotar</div>
+        <div class="tab" onclick="openTab('tab4')">Circulo</div>
     </div>
     
     <div id="tab1" class="tab-content active">
@@ -121,7 +123,52 @@
             <input type="number" id="angle" min="0" max="360" step="0.1">
         </div>
         
-        <button onclick="sendData()">Enviar Datos UDP</button>
+        <button onclick="sendData('L')">Enviar Datos UDP</button>
+    </div>
+
+    <div id="tab3" class="tab-content">
+        <div class="radio-group">
+            <label>Dirección</label>
+            <div class=" radio-option">
+                <input type="radio" id="CW" name="direction" value = 1 checked>
+                <label for="CW">Clock Wise</label>
+            </div>
+            <div class=" radio-option">
+                <input type="radio" id="CCW" name="direction" value = 0>
+                <label for="CCw">Counter Clock Wise</label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="angle_r">Grados a rotar (°):</label>
+            <input type="number" id="angle_r" step="1">
+        </div>
+        <div class="form-group">
+            <label for="vs_r">Velocidad Angular:</label>
+            <input type="number" id="vs_r" min="0" step="0.1">
+        </div>
+        <button onclick="sendData('R')">Enviar</button>
+    </div>
+    <div id="tab4" class="tab-content">
+        <div class="radio-group">
+            <label>Dirección</label>
+            <div class=" radio-option">
+                <input type="radio" id="CW" name="direction_c" value = 1 checked>
+                <label for="CW">Clock Wise</label>
+            </div>
+            <div class=" radio-option">
+                <input type="radio" id="CCW" name="direction_c" value = 0>
+                <label for="CCw">Counter Clock Wise</label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="angle_c">Radio:</label>
+            <input type="number" id="angle_c" step="0,05">
+        </div>
+        <div class="form-group">
+            <label for="vs_c">Velocidad Angular:</label>
+            <input type="number" id="vs_c" min="0" step="0.1">
+        </div>
+        <button onclick="sendData('C')">Enviar</button>
     </div>
 
     <script>
@@ -164,19 +211,35 @@
             tabs[1].classList.add('active');
         }
         
-        function sendData() {
+        function sendData(comand) {
             const ipAddress = localStorage.getItem('udpIpAddress');
             if (!ipAddress) {
                 alert("Primero debe configurar la dirección IP");
                 openTab('tab1');
                 return;
             }
+            var selectedOption = document.querySelector('input[name="dataOption"]:checked').value;
+            const selectedOption_r = document.querySelector('input[name="direction"]:checked').value;
+            const selectedOption_c = document.querySelector('input[name="direction_c"]:checked').value;
+            var number1 = document.getElementById('vs').value;
+            var number2 = document.getElementById('dx').value;
+            const number3 = document.getElementById('vs_r').value;
+            const number4 = document.getElementById('vs_c').value;
+            const angle_r = document.getElementById('angle_r').value;
+            const angle_c = document.getElementById('angle_c').value;
+            var angle = document.getElementById('angle').value;
+
             
-            const selectedOption = document.querySelector('input[name="dataOption"]:checked').value;
-            const number1 = document.getElementById('vs').value;
-            const number2 = document.getElementById('dx').value;
-            const angle = document.getElementById('angle').value;
-            
+            if(comand =='R'){
+                selectedOption = selectedOption_r;
+                number1 = number3;
+                angle = angle_r;
+            }
+            if(comand == 'C'){
+                selectedOption = selectedOption_c;
+                number1 = number4;
+                angle = angle_c;
+            }
             if (!number1 || !number2 || !angle) {
                 alert("Por favor complete todos los campos");
                 return;
@@ -184,6 +247,7 @@
             
             const data = {
                 ip: ipAddress,
+                cmd: comand,
                 option: selectedOption,
                 numbers: [parseFloat(number1), parseFloat(number2)],
                 angle: parseFloat(angle)

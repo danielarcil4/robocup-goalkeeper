@@ -145,13 +145,16 @@ typedef struct {
  * This function initializes the BNO055 sensor with the specified I2c (or uart) configuration.
  * 
  * @param bno055 Pointer to the BNO055 sensor structure
+ * @param sda GPIO pin used for SDA
+ * @param scl GPIO pin used for SCL
+ * @param i2c_num I2C bus number to use
  */
 int8_t BNO055_Init(BNO055_t *bno055, uint8_t sda, uint8_t scl, uint8_t i2c_num);
 
 /**
  * @brief Reset the BNO055 sensor
  * 
- * @param bno055 
+ * @param bno055 Pointer to the BNO055 sensor structure
  */
 void BNO055_Reset(BNO055_t *bno055);
 
@@ -196,6 +199,7 @@ int8_t BNO055_GetInfo(BNO055_t *bno055);
  * | NDOF_FMC_OFF    | 0x0B       | Fusion: Full NDOF without fast magnetometer calibration |
  * | NDOF            | 0x0C       | Fusion: Full NDOF with calibration       |
  * 
+ * @param bno055 Pointer to the BNO055 sensor structure
  * @param mode Mode of operation 
  */
 int8_t BNO055_SetOperationMode(BNO055_t *bno055, BNO055_OperationMode mode);
@@ -206,6 +210,7 @@ int8_t BNO055_SetOperationMode(BNO055_t *bno055, BNO055_OperationMode mode);
  * This function retrieves the current operation mode of the BNO055 sensor
  * and returns the yaw, pitch, and roll values.
  * 
+ * @param bno055 Pointer to the BNO055 sensor structure
  * @param yaw Pointer to a variable where the yaw value will be stored
  * @param pitch Pointer to a variable where the pitch value will be stored
  * @param roll Pointer to a variable where the roll value will be stored
@@ -218,6 +223,7 @@ void BNO055_GetEulerAngles(BNO055_t *bno055, float *yaw , float *pitch , float *
  * This function retrieves the linear acceleration of the BNO055 sensor
  * and returns the x, y, and z values.
  * 
+ * @param bno055 Pointer to the BNO055 sensor structure
  * @param x Pointer to a variable where the x value will be stored
  * @param y Pointer to a variable where the y value will be stored
  * @param z Pointer to a variable where the z value will be stored
@@ -240,6 +246,7 @@ void BNO055_GetGyro(BNO055_t *bno055, float *gx , float *gy , float *gz); ///> G
  * This function retrieves the magnetic field of the BNO055 sensor
  * and returns the x, y, and z values.
  * 
+ * @param bno055 Pointer to the BNO055 sensor structure
  * @param mx Pointer to a variable where the mx value will be stored
  * @param my Pointer to a variable where the my value will be stored
  * @param mz Pointer to a variable where the mz value will be stored
@@ -249,7 +256,7 @@ void BNO055_GetMagnetometer(BNO055_t *bno055, float *mx , float *my , float *mz)
 /**
  * @brief Fuctión to send data to the BNO055 sensor for UART communication
  * 
- * @param bno055
+ * @param bno055 Pointer to the BNO055 sensor
  * @param reg Address of the register to write in HEX
  * @param data Pointer to the data to write
  * @param len Length of the data to write in bytes
@@ -259,7 +266,7 @@ void BNO055_GetMagnetometer(BNO055_t *bno055, float *mx , float *my , float *mz)
 /**
  * @brief Fuctión to send data to the BNO055 sensor for I2C communication
  * 
- * @param bno055
+ * @param bno055 Pointer to the BNO055 sensor
  * @param reg Address of the register to write in HEX
  * @param data Pointer to the data to write
  * @param len Length of the data to write in bytes
@@ -269,7 +276,7 @@ int8_t BN055_Write(BNO055_t *bno055, uint8_t reg, uint8_t *data, uint8_t len);
 /**
  * @brief Function to read data from the BNO055 sensor for UART communication
  * 
- * @param bno055
+ * @param bno055 Pointer to the BNO055 sensor
  * @param reg Address of the register to read in HEX
  * @param data Pointer to the data to read
  * @param len Length of the data to read in bytes
@@ -281,7 +288,7 @@ int8_t BNO055_Read_Uart(BNO055_t *bno055, uint8_t reg, uint8_t *data, uint8_t le
 /**
  * @brief Function to read data from the BNO055 sensor for I2C communication
  * 
- * @param bno055
+ * @param bno055 Pointer to the BNO055 sensor
  * @param reg Address of the register to read in HEX
  * @param data Pointer to the data to read
  * @param len Length of the data to read in bytes
@@ -300,7 +307,7 @@ int8_t BNO055_CheckAck(uint8_t *data);
 /**
  * @brief Read all data from the BNO055 sensor with I2C (or uart)
  * 
- * @param bno055
+ * @param bno055 Pointer to the BNO055 sensor
  * @return int8_t 
  */
 int8_t BNO055_ReadAll(BNO055_t *bno055);
@@ -308,7 +315,7 @@ int8_t BNO055_ReadAll(BNO055_t *bno055);
 /**
  * @brief Read all data from the BNO055 sensor with I2C (or uart) with Lineal Acceleration
  * 
- * @param bno055
+ * @param bno055 Pointer to the BNO055 sensor
  * @return int8_t 
  */
 int8_t BNO055_ReadAll_Lineal(BNO055_t *bno055);
@@ -324,8 +331,12 @@ int8_t BNO055_ReadAll_Lineal(BNO055_t *bno055);
  * Bit 4 Temperature unit (0: Celsius, 1: Fahrenheit)
  * Bit 7 Orientation unit (0: Windows, 1: Android)
  * 
- * @param bno055 
- * @param unit  Bit value for the unit
+ * @param bno055 Pointer to the BNO055 sensor
+ * @param accel_unit Acceleration unit bit
+ * @param gyro_unit Gyroscope unit bit
+ * @param euler_unit Euler angles unit bit
+ * @param temp_unit Temperature unit bit
+ * @param ori_unit Orientation unit bit
  * @return uint8_t 
  */
 int8_t BNO055_SetUnit(BNO055_t *bno055, uint8_t accel_unit, uint8_t gyro_unit, uint8_t euler_unit, uint8_t temp_unit, uint8_t ori_unit);
@@ -333,9 +344,9 @@ int8_t BNO055_SetUnit(BNO055_t *bno055, uint8_t accel_unit, uint8_t gyro_unit, u
 /**
  * @brief Set the power mode of the BNO055 sensor
  * 
- * @param bno055 
- * @param mode 
- * @return int8_t 
+ * @param bno055 Pointer to the BNO055 sensor structure
+ * @param mode Power mode to set for the sensor
+ * @return int8_t BNO055_SUCCESS on success, BNO055_ERROR on failure
  */
 int8_t BNO055_SetPowerMode(BNO055_t *bno055, BNO055_PowerMode mode);
 

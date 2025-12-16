@@ -1,4 +1,12 @@
 
+/**
+ * @file pid.c
+ * @brief PID controller implementation.
+ *
+ * Implements a small, configurable PID controller supporting positional and
+ * incremental calculation methods. Intended for motor speed/position control.
+ */
+
 #include <stdbool.h>
 #include <sys/param.h>
 #include <stdlib.h>
@@ -27,6 +35,14 @@ struct pid_block_t {
     pid_cal_func_t calculate_func; // calculation function, depends on actual PID type set by user
 };
 
+/**
+ * @brief Positional PID calculation (internal helper).
+ *
+ * Calculates the PID output using the positional PID formula and performs
+ * anti-windup checks to limit integral accumulation.
+ *
+ * @param pid Pointer to the PID control block
+ */
 static void pid_calc_positional(pid_block_t *pid)
 {
     float output = 0;
@@ -62,6 +78,14 @@ static void pid_calc_positional(pid_block_t *pid)
     pid->output = output;
 }
 
+/**
+ * @brief Incremental PID calculation (internal helper).
+ *
+ * Calculates the PID control incrementally using differences of errors and
+ * updates the previous outputs accordingly.
+ *
+ * @param pid Pointer to the PID control block
+ */
 static void pid_calc_incremental(pid_block_t *pid)
 {
     float output = 0;
@@ -88,6 +112,11 @@ static void pid_calc_incremental(pid_block_t *pid)
     pid->output = output;
 }
 
+/**
+ * @brief Create a new PID control block and initialize it.
+ *
+ * Allocates a new PID block and initializes parameters from the provided config.
+ */
 int pid_new_control_block(const pid_config_t *config, pid_block_handle_t *ret_pid)
 {
     int ret = PID_OK;
@@ -119,6 +148,9 @@ err:
     return ret;
 }
 
+/**
+ * @brief Delete a PID control block and free associated resources.
+ */
 int pid_del_control_block(pid_block_handle_t pid)
 {
     if (!pid) {
@@ -141,6 +173,12 @@ int pid_compute(pid_block_handle_t pid, float input, float *ouput)
     return PID_OK;
 }
 
+/**
+ * @brief Update PID parameters for an existing PID block.
+ *
+ * Copies the configuration parameters into the PID block and selects the
+ * appropriate calculation function according to `cal_type`.
+ */
 int pid_update_parameters(pid_block_handle_t pid, const pid_parameter_t *params)
 {
     if (!pid || !params) {
@@ -175,8 +213,10 @@ int pid_update_set_point(pid_block_handle_t pid, float set_point)
     if (!pid) {
         return PID_ERR_INVALID_ARG; // Invalid argument
     }
-
+    uint32_t timestamp_us = 500000;
     pid->set_point = set_point;
+    
+    //printf("IK,%lu,%.4f,%.4f \r\n", timestamp_us, set_point, pid->set_point);
     // pid->integral_err = 0; // Reset integral error when set point changes
     // pid->previous_err1 = 0; // Reset previous errors
     // pid->previous_err2 = 0;
@@ -186,6 +226,12 @@ int pid_update_set_point(pid_block_handle_t pid, float set_point)
     return PID_OK;
 }
 
+/**
+ * @brief Reset internal integrator and history state of a PID block.
+ *
+ * Clears accumulated integral and previous error/output values so the block
+ * restarts without older state influencing the next outputs.
+ */
 int pid_reset_block(pid_block_handle_t pid)
 {
     if (!pid) {

@@ -35,6 +35,9 @@ static uart_port_t find_uart_num(uint8_t gpio_tx, uint8_t gpio_rx, uint8_t gpio_
     return UART_NUM_2;
 }
 
+/**
+ * @brief Initialize UART with given parameters and install driver.
+ */
 int uart_init(uart_t *uart_config, uint32_t baud_rate, uint16_t buffer_size, int8_t gpio_tx, int8_t gpio_rx, int8_t gpio_rts, int8_t gpio_cts)
 {
     // Check if the UART gpio pins are valid
@@ -106,6 +109,9 @@ int uart_init(uart_t *uart_config, uint32_t baud_rate, uint16_t buffer_size, int
     return log;
 }
 
+/**
+ * @brief Write bytes to UART.
+ */
 int uart_write(uart_t *uart_config, const uint8_t *data, size_t length)
 {
     if (uart_config == NULL || data == NULL || length == 0) {
@@ -126,6 +132,9 @@ int uart_write(uart_t *uart_config, const uint8_t *data, size_t length)
     return bytes_written;
 }
 
+/**
+ * @brief Read bytes from UART with timeout.
+ */
 int uart_read(uart_t *uart_config, uint8_t *buffer, size_t length, int timeout_ms)
 {
     if (uart_config == NULL || buffer == NULL || length == 0) {
@@ -146,6 +155,9 @@ int uart_read(uart_t *uart_config, uint8_t *buffer, size_t length, int timeout_m
     return bytes_read;
 }
 
+/**
+ * @brief Flush UART buffers.
+ */
 int uart_clear(uart_t *uart_config)
 {
     if (uart_config == NULL) {
@@ -477,11 +489,17 @@ err:
     return false;
 }
 
+/**
+ * @brief Set GPIO output to logical high.
+ */
 void gpio_set_high(gpio_t *gpio)
 {
     gpio_set_level(gpio->gpio_num, 1);
 }
 
+/**
+ * @brief Set GPIO output to logical low.
+ */
 void gpio_set_low(gpio_t *gpio)
 {
     gpio_set_level(gpio->gpio_num, 0);

@@ -1,3 +1,7 @@
+/**
+ * @file task_read_sensors.c
+ * @brief Task that reads sensors and produces filtered encoder/IMU data.
+ */
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "freertos/semphr.h"
@@ -106,14 +110,12 @@ static inline float compute_angular_velocity(angular_velocity_t *sensor, float a
 }
 
 /**
- * @brief Task that reads encoder and computes angular velocity periodically.
- * 
- * @param pvParameters Unused
- */
-/**
- * @brief Task that reads encoder and computes angular velocity periodically.
- * 
- * @param pvParameters Unused
+ * @brief Task that reads encoders, estimates angular velocity and updates shared state.
+ *
+ * Runs periodically at SENSOR_TASK_PERIOD_MS and updates `sensor_data` and
+ * `robot_estimated` with filtered values.
+ *
+ * @param pvParameters FreeRTOS task parameter (unused)
  */
 void vTaskReadSensors(void *pvParameters)
 {
@@ -142,8 +144,8 @@ void vTaskReadSensors(void *pvParameters)
         kalman_init(&kalman_filters[i], SENSOR_KALMAN_Q, SENSOR_KALMAN_R); // Initialize Kalman filter for each encoder
     }
 
-    // uint32_t timestamp_us = 1000000; // 1 second in microseconds
-    // int print_counter = 0;
+    uint32_t timestamp_us = 1000000; // 1 second in microseconds
+    int print_counter = 0;
 
     while (true) {
         //Take mutex to read the encoder angle
@@ -169,8 +171,8 @@ void vTaskReadSensors(void *pvParameters)
 
         // Calculate the estimated velocities based on the angular velocities with forward kinematics
         wheel_speeds_stimated.phi_dot[0] = filtered_omega_rad[0]; // φ̇_1
-        wheel_speeds_stimated.phi_dot[1] = filtered_omega_rad[2]; // φ̇_2
-        wheel_speeds_stimated.phi_dot[2] = filtered_omega_rad[1]; // φ̇_3
+        wheel_speeds_stimated.phi_dot[1] = filtered_omega_rad[1]; // φ̇_2  esto era 2
+        wheel_speeds_stimated.phi_dot[2] = filtered_omega_rad[2]; // φ̇_3  esto era 1
         compute_forward_kinematics(wheel_speeds_stimated, &speed_estimated);
         
 
@@ -193,9 +195,9 @@ void vTaskReadSensors(void *pvParameters)
         }
         
 
-        // Print the result for debugging
+        // // Print the result for debugging
         // if (++print_counter >= 10) {
-        //     printf("I,%" PRIu32 ",%.4f,%.4f,%.4f,%.4f,%.4f,%.4f\r\n", timestamp_us, angle_deg[0], angle_deg[1], angle_deg[2], SENSOR_ANGULAR_DIRECTION_FORWARD(0)*filtered_omega_rad[0], SENSOR_ANGULAR_DIRECTION_FORWARD(1)*filtered_omega_rad[1], SENSOR_ANGULAR_DIRECTION_FORWARD(2)*filtered_omega_rad[2]);
+        //     printf("I,%" PRIu32 ",%.4f,%.4f,%.4f,%.4f,%.4f,%.4f\r\n", timestamp_us, angle_deg[0], angle_deg[1], angle_deg[2], filtered_omega_rad[0], filtered_omega_rad[1], filtered_omega_rad[2]);
         //     print_counter = 0;
         // }
         // timestamp_us += SENSOR_TASK_PERIOD_MS * 1000; // Increment timestamp by task period in microseconds

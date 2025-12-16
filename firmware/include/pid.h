@@ -1,3 +1,10 @@
+/**
+ * @file pid.h
+ * @brief Simple PID controller API used by motor controllers in the firmware.
+ *
+ * Exposes functions to create/destroy control blocks, update parameters and compute
+ * control outputs.
+ */
 #ifndef PID_H
 #define PID_H
 

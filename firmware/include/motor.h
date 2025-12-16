@@ -1,3 +1,9 @@
+/**
+ * @file motor.h
+ * @brief Motor driver abstractions and helper functions.
+ *
+ * Provides structures and APIs to initialize and control brushless motors via LEDC.
+ */
 #ifndef MOTOR_H
 #define MOTOR_H
 

@@ -1,0 +1,25 @@
+var platform__esp32s3_8c =
+[
+    [ "adc_config_channel", "platform__esp32s3_8c.html#ab1f7293da4a1839e4c1e917d097ef5aa", null ],
+    [ "adc_create_unit", "platform__esp32s3_8c.html#aaea2d368926dbf1e5b7e8f45dc8d7456", null ],
+    [ "adc_deinit", "platform__esp32s3_8c.html#a9ba76a9aabda7c0719e5bd61d5d0b1db", null ],
+    [ "adc_init", "platform__esp32s3_8c.html#a742638e3589f313e68425c914f3de4c1", null ],
+    [ "adc_new_channel_cali", "platform__esp32s3_8c.html#afd430a152bb72dafe282f73aff79e81e", null ],
+    [ "adc_new_unit", "platform__esp32s3_8c.html#a05d3a9a37570312e6afdcc42ab1d730b", null ],
+    [ "adc_read_mvolt", "platform__esp32s3_8c.html#af735803f89f26a91bad50a9b65803e87", null ],
+    [ "adc_read_raw", "platform__esp32s3_8c.html#a556a91ca6f512ab2616772fd48668e32", null ],
+    [ "find_uart_num", "platform__esp32s3_8c.html#ac30fc36b444cee02af471eaddaa9718b", null ],
+    [ "gpio_deinit", "platform__esp32s3_8c.html#ab32d7926fa433638b3d8bdc0f4d82ff6", null ],
+    [ "gpio_init_basic", "platform__esp32s3_8c.html#aa988b36947be0840c86cc912f1cabff4", null ],
+    [ "gpio_set_high", "platform__esp32s3_8c.html#a73019cb03370096d77c070816277f0e4", null ],
+    [ "gpio_set_low", "platform__esp32s3_8c.html#a48dda07da9b123a3478a4bde8a855d8b", null ],
+    [ "i2c_deinit", "platform__esp32s3_8c.html#a159027129088e2684b72a3be658a36f6", null ],
+    [ "i2c_init", "platform__esp32s3_8c.html#ab39f04bc04a3d9e3643543675de39cbc", null ],
+    [ "i2c_read_reg", "platform__esp32s3_8c.html#aa428a7064a62b195c63d8ac04203005f", null ],
+    [ "i2c_write", "platform__esp32s3_8c.html#a777942d059df846b6ba68ae8846e8d5b", null ],
+    [ "i2c_write_reg", "platform__esp32s3_8c.html#ad8ddf52fd43606aaa04aa0eed4362497", null ],
+    [ "uart_clear", "platform__esp32s3_8c.html#a678e9d4f1c0aed8f26f8556fed7ba9ee", null ],
+    [ "uart_init", "platform__esp32s3_8c.html#a0e4fe763eeab2053fc7ceafd01f637e0", null ],
+    [ "uart_read", "platform__esp32s3_8c.html#ab62cae1d101d4e3dc7e737b70de449e7", null ],
+    [ "uart_write", "platform__esp32s3_8c.html#a121700b3efac793d65c125db79a771ed", null ]
+];

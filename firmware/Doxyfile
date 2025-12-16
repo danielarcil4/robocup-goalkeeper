@@ -1,0 +1,52 @@
+# Doxygen configuration for RoboCup Goalkeeper firmware
+PROJECT_NAME           = "RoboCup Goalkeeper Firmware"
+PROJECT_BRIEF          = "Firmware for RoboCup Goalkeeper robot"
+OUTPUT_DIRECTORY       = docs
+CREATE_SUBDIRS         = NO
+OUTPUT_LANGUAGE        = English
+GENERATE_HTML          = YES
+GENERATE_LATEX         = NO
+GENERATE_TREEVIEW      = YES
+QUIET                  = NO
+WARNINGS               = YES
+WARN_IF_UNDOCUMENTED   = YES
+WARN_NO_PARAMDOC       = YES
+JAVADOC_AUTOBRIEF      = YES
+OPTIMIZE_OUTPUT_FOR_C  = YES
+RECURSIVE              = YES
+INPUT                  = .
+FILE_PATTERNS          = *.c *.h
+EXCLUDE_PATTERNS       = protobuf/* components/nanopb/* build/* .git/*
+EXCLUDE_SYMBOLS        = 
+EXTRACT_ALL            = YES
+EXTRACT_PRIVATE        = YES
+EXTRACT_STATIC         = YES
+EXTRACT_LOCAL_CLASSES  = YES
+EXTRACT_ANON_NSPACES   = NO
+GENERATE_TAGFILE       =
+GENERATE_HTMLHELP      = NO
+GENERATE_RTF           = NO
+GENERATE_MAN           = NO
+HAVE_DOT               = NO
+DOT_PATH               = 
+DOT_FONTPATH           = 
+
+# Use brief member descriptions as full description when possible
+SHORT_NAMES            = NO
+FULL_PATH_NAMES        = NO
+STRIP_FROM_PATH        = .
+
+# Source browsing
+SOURCE_BROWSER         = YES
+INLINE_SOURCES         = NO
+REFERENCED_BY_RELATION = NO
+REFERENCES_RELATION    = NO
+
+# Input filtering
+FILTER_SOURCE_FILES    = NO
+
+# Index and grouping
+GENERATE_TREEVIEW      = YES
+
+# Misc
+TAB_SIZE               = 4

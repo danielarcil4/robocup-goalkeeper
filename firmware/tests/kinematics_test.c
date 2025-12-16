@@ -1,3 +1,7 @@
+/**
+ * @file kinematics_test.c
+ * @brief Unit tests for forward/inverse kinematics round-trip correctness.
+ */
 #include <stdio.h>
 #include <math.h>
 #include <stdlib.h>

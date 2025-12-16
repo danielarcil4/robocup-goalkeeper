@@ -56,7 +56,11 @@ typedef struct
 /**
  * @brief Initialize the I2C master driver
  * 
+ * @param as5600 Pointer to AS5600 instance
  * @param i2c_num I2C port number
+ * @param scl SCL GPIO pin
+ * @param sda SDA GPIO pin
+ * @param out OUT GPIO pin connected to AS5600
  */
 void AS5600_Init(AS5600_t *as5600, i2c_port_t i2c_num, uint8_t scl, uint8_t sda, uint8_t out);
 
@@ -69,8 +73,9 @@ void AS5600_Deinit(AS5600_t *as5600);
 /**
  * @brief Get angle in degrees from the AS5600 sensor by ADC.
  * Also take into account the range of the OUT pin of the AS5600 sensor, which is 10%-90% of VCC.
- * 
- * @param as5600 
+ *
+ * @param as5600 Pointer to AS5600 instance
+ * @return float Angle in degrees [0,360) or -1 on error
  */
 float AS5600_ADC_GetAngle(AS5600_t *as5600);
 
@@ -80,8 +85,8 @@ float AS5600_ADC_GetAngle(AS5600_t *as5600);
  * The BURN_ANGLE command can be executed up to 3 times
  * ZMCO shows how many times ZPOS and MPOS have been permanently written. 
  * This command may only be executed if the presence of the magnet is detected (MD = 1).
- * 
- * @param as5600 
+ *
+ * @param as5600 Pointer to AS5600 instance
  */
 void AS5600_BurnAngleCommand(AS5600_t *as5600);
 
@@ -90,16 +95,17 @@ void AS5600_BurnAngleCommand(AS5600_t *as5600);
  * To perform a BURN_SETTING command, write the value 0x40 into register 0xFF. 
  * MANG can be written only if ZPOS and MPOS have never been permanently written (ZMCO = 00). 
  * The BURN_ SETTING command can be performed only one time.
- * 
- * @param as5600 
+ *
+ * @param as5600 Pointer to AS5600 instance
  */
 void AS5600_BurnSettingCommand(AS5600_t *as5600);
 
 /**
  * @brief Convert register string to register address
  * 
- * @param reg_str Register string
- * @return as5600_reg_t Register address
+ * @param as5600 Pointer to AS5600 instance (destination for selected reg)
+ * @param reg_str Register string (e.g. "zpos", "mpos", "angl")
+ * @return AS5600_reg_t Register enum, or -1 on unknown string
  */
 AS5600_reg_t AS5600_RegStrToAddr(AS5600_t *as5600, const char *reg_str);
 
@@ -110,42 +116,43 @@ AS5600_reg_t AS5600_RegStrToAddr(AS5600_t *as5600, const char *reg_str);
 /**
  * @brief Initialize the ADC driver
  * 
- * @param as5600 
+ * @param as5600 Pointer to AS5600 instance
  */
 void AS5600_InitADC(AS5600_t *as5600);
 
 /**
  * @brief Initialize the ADC driver with a shared handle
  * 
- * @param as5600 
- * @param shared_handle Shared ADC handle
+ * @param as5600 Pointer to AS5600 instance
+ * @param shared_handle Shared ADC oneshot unit handle
  */
 void AS5600_InitADC_2(AS5600_t *as5600, adc_oneshot_unit_handle_t shared_handle);
 
 /**
  * @brief Deinitialize the ADC driver
  * 
- * @param as5600 
+ * @param as5600 Pointer to AS5600 instance
  */
 void AS5600_DeinitADC(AS5600_t *as5600);
 
 /**
  * @brief Initialize the GPIO driver
  * 
- * @param as5600 
+ * @param as5600 Pointer to AS5600 instance
  */
 void AS5600_InitGPIO(AS5600_t *as5600);
 
 /**
  * @brief Deinitialize the GPIO driver
  * 
- * @param as5600 
+ * @param as5600 Pointer to AS5600 instance
  */
 void AS5600_DeinitGPIO(AS5600_t *as5600);
 
 /**
  * @brief Set the GPIO pin to the specified value
  * 
+ * @param as5600 Pointer to AS5600 instance
  * @param value Value to set (0 or 1)
  */
 void AS5600_SetGPIO(AS5600_t *as5600, uint8_t value);
@@ -157,14 +164,16 @@ void AS5600_SetGPIO(AS5600_t *as5600, uint8_t value);
 /**
  * @brief Read register
  * 
+ * @param as5600 Pointer to AS5600 instance
  * @param reg Register address
- * @param data Pointer to the data
+ * @param data Pointer to the data buffer to receive the register value
  */
 void AS5600_ReadReg(AS5600_t *as5600, AS5600_reg_t reg, uint16_t *data);
 
 /**
  * @brief Write register
  * 
+ * @param as5600 Pointer to AS5600 instance
  * @param reg Register address
  * @param data Data to write
  */
@@ -173,6 +182,7 @@ void AS5600_WriteReg(AS5600_t *as5600, AS5600_reg_t reg, uint16_t data);
 /**
  * @brief Check if the register is valid for reading
  * 
+ * @param as5600 Pointer to AS5600 instance
  * @param reg Register address
  * @return true if the register is valid
  * @return false if the register is invalid
@@ -182,6 +192,7 @@ bool AS5600_IsValidReadReg(AS5600_t *as5600, AS5600_reg_t reg);
 /**
  * @brief Check if the register is valid for writing
  * 
+ * @param as5600 Pointer to AS5600 instance
  * @param reg Register address
  * @return true if the register is valid
  * @return false if the register is invalid
@@ -195,56 +206,64 @@ bool AS5600_IsValidWriteReg(AS5600_t *as5600, AS5600_reg_t reg);
 /**
  * @brief Set the start position by writing the ZPOS register
  * 
- * @param start_position 
+ * @param as5600 Pointer to AS5600 instance
+ * @param start_position Start position value (counts)
  */
 void AS5600_SetStartPosition(AS5600_t *as5600, uint16_t start_position);
 
 /**
  * @brief Get the start position by reading the ZPOS register
  * 
- * @param start_position 
+ * @param as5600 Pointer to AS5600 instance
+ * @param start_position Pointer to store the start position (counts)
  */
 void AS5600_GetStartPosition(AS5600_t *as5600, uint16_t *start_position);
 
 /**
  * @brief Set the stop position by writing the MPOS register
  * 
- * @param stop_position 
+ * @param as5600 Pointer to AS5600 instance
+ * @param stop_position Stop position value (counts)
  */
 void AS5600_SetStopPosition(AS5600_t *as5600, uint16_t stop_position);
 
 /**
  * @brief Get the stop position by reading the MPOS register
  * 
- * @param stop_position 
+ * @param as5600 Pointer to AS5600 instance
+ * @param stop_position Pointer to store stop position (counts)
  */
 void AS5600_GetStopPosition(AS5600_t *as5600, uint16_t *stop_position);
 
 /**
  * @brief Set the maximum angle by writing the MANG register
  * 
- * @param max_angle 
+ * @param as5600 Pointer to AS5600 instance
+ * @param max_angle Maximum angle value (counts)
  */
 void AS5600_SetMaxAngle(AS5600_t *as5600, uint16_t max_angle);
 
 /**
  * @brief Get the maximum angle by reading the MANG register
  * 
- * @param max_angle 
+ * @param as5600 Pointer to AS5600 instance
+ * @param max_angle Pointer to store maximum angle (counts)
  */
 void AS5600_GetMaxAngle(AS5600_t *as5600, uint16_t *max_angle);
 
 /**
  * @brief Set the configuration by writing the CONF register
  * 
- * @param conf Configuration
+ * @param as5600 Pointer to AS5600 instance
+ * @param conf Configuration to write
  */
 void AS5600_SetConf(AS5600_t *as5600, AS5600_config_t conf);
 
 /**
  * @brief Get the configuration by reading the CONF register
  * 
- * @param conf Configuration
+ * @param as5600 Pointer to AS5600 instance
+ * @param conf Pointer to structure to receive configuration
  */
 void AS5600_GetConf(AS5600_t *as5600, AS5600_config_t *conf);
 
@@ -256,16 +275,16 @@ void AS5600_GetConf(AS5600_t *as5600, AS5600_config_t *conf);
 /**
  * @brief Read RAW ANGLE register
  * 
- * @param reg buffer to store the register value
- * @param data Pointer to the data
+ * @param as5600 Pointer to AS5600 instance
+ * @param raw_angle Pointer to store raw angle value (counts)
  */
 void AS5600_GetRawAngle(AS5600_t *as5600, uint16_t *raw_angle);
 
 /**
  * @brief Read ANGLE register
  * 
- * @param reg buffer to store the register value
- * @param data Pointer to the data
+ * @param as5600 Pointer to AS5600 instance
+ * @param angle Pointer to store angle value (counts)
  */
 void AS5600_GetAngle(AS5600_t *as5600, uint16_t *angle);
 
@@ -276,24 +295,24 @@ void AS5600_GetAngle(AS5600_t *as5600, uint16_t *angle);
 /**
  * @brief Read STATUS register
  * 
- * @param reg buffer to store the register value
- * @param data Pointer to the data
+ * @param as5600 Pointer to AS5600 instance
+ * @param status Pointer to store status byte
  */
 void AS5600_GetStatus(AS5600_t *as5600, uint8_t *status);
 
 /**
  * @brief Read AGC register
  * 
- * @param reg buffer to store the register value
- * @param data Pointer to the data
+ * @param as5600 Pointer to AS5600 instance
+ * @param agc Pointer to store AGC value
  */
 void AS5600_GetAgc(AS5600_t *as5600, uint8_t *agc);
 
 /**
  * @brief Read MAGNITUDE register
  * 
- * @param reg buffer to store the register value
- * @param data Pointer to the data
+ * @param as5600 Pointer to AS5600 instance
+ * @param magnitude Pointer to store magnitude value
  */
 void AS5600_GetMagnitude(AS5600_t *as5600, uint16_t *magnitude);
 

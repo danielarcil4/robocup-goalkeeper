@@ -1,5 +1,15 @@
+/**
+ * @file as5600.c
+ * @brief Driver helpers for the AS5600 magnetic rotary sensor.
+ *
+ * Implements initialization, register access, ADC-based angle reading and
+ * configuration helpers used by encoder tasks.
+ */
 #include "as5600.h"
 
+/**
+ * @brief Initialize AS5600 peripheral (I2C, pins) and configure ADC/GPIO later.
+ */
 void AS5600_Init(AS5600_t *as5600, i2c_port_t i2c_num, uint8_t scl, uint8_t sda, uint8_t out)
 {
     as5600->out = out; // Set the GPIO pin connected to the OUT pin of the AS5600 sensor
@@ -10,8 +20,11 @@ void AS5600_Init(AS5600_t *as5600, i2c_port_t i2c_num, uint8_t scl, uint8_t sda,
         return;
     }
 
-}
+} 
 
+/**
+ * @brief Deinitialize AS5600 resources (I2C, ADC, GPIO).
+ */
 void AS5600_Deinit(AS5600_t *as5600)
 {
     i2c_deinit(&as5600->i2c_handle);
@@ -19,6 +32,12 @@ void AS5600_Deinit(AS5600_t *as5600)
     gpio_deinit(&as5600->gpio_handle);
 }
 
+/**
+ * @brief Read angle from AS5600 using the analog OUT pin (via ADC).
+ *
+ * Returns angle in degrees [0,360) when ADC is calibrated and the OUT stage
+ * is reduced range (10%-90%). Returns -1 on error or when ADC not available.
+ */
 float AS5600_ADC_GetAngle(AS5600_t *as5600)
 {
     float angle;
@@ -32,20 +51,33 @@ float AS5600_ADC_GetAngle(AS5600_t *as5600)
         angle = -1;
     }
     return angle;
-}
+} 
 
+/**
+ * @brief Perform BURN_ANGLE command to permanently program ZPOS/MPOS.
+ *
+ * Executes the required register write to trigger the burn command (can be used up to 3 times).
+ */
 void AS5600_BurnAngleCommand(AS5600_t *as5600)
 {
     uint8_t data = AS5600_BURN_MODE_BURN_ANGLE;
     i2c_write_reg(&as5600->i2c_handle, AS5600_REG_BURN, (uint8_t *)&data, 1);
 }
 
+/**
+ * @brief Perform BURN_SETTING command to permanently program MANG and CONFIG.
+ */
 void AS5600_BurnSettingCommand(AS5600_t *as5600)
 {
     uint8_t data = AS5600_BURN_MODE_BURN_SETTING;
     i2c_write_reg(&as5600->i2c_handle, AS5600_REG_BURN, (uint8_t *)&data, 1);
 }
 
+/**
+ * @brief Convert a short register name string to the AS5600 register enum.
+ *
+ * Accepts names like "zmco", "zpos", "mpos", etc.
+ */
 AS5600_reg_t AS5600_RegStrToAddr(AS5600_t *as5600, const char *reg_str)
 {
     if (strcmp(reg_str, "zmco") == 0) {
@@ -85,8 +117,13 @@ AS5600_reg_t AS5600_RegStrToAddr(AS5600_t *as5600, const char *reg_str)
         return -1;
     }
     return as5600->reg;
-}
+} 
 
+/**
+ * @brief Read a register from the AS5600 via I2C.
+ *
+ * Handles single-byte registers and two-byte registers with endianness correction.
+ */
 void AS5600_ReadReg(AS5600_t *as5600, AS5600_reg_t reg, uint16_t *data)
 {
     if (!AS5600_IsValidReadReg(as5600, reg)) {
@@ -105,6 +142,11 @@ void AS5600_ReadReg(AS5600_t *as5600, AS5600_reg_t reg, uint16_t *data)
     }
 }
 
+/**
+ * @brief Write a register on the AS5600 via I2C.
+ *
+ * Accepts one-byte and two-byte writes depending on register.
+ */
 void AS5600_WriteReg(AS5600_t *as5600, AS5600_reg_t reg, uint16_t data)
 {
     if (!AS5600_IsValidWriteReg(as5600, reg)) {
@@ -122,6 +164,9 @@ void AS5600_WriteReg(AS5600_t *as5600, AS5600_reg_t reg, uint16_t data)
     }
 }
 
+/**
+ * @brief Check whether a register is valid for reading.
+ */
 bool AS5600_IsValidReadReg(AS5600_t *as5600, AS5600_reg_t reg)
 {
     if (reg == AS5600_REG_ZMCO || reg == AS5600_REG_ZPOS_H || reg == AS5600_REG_ZPOS_L || 
@@ -136,6 +181,9 @@ bool AS5600_IsValidReadReg(AS5600_t *as5600, AS5600_reg_t reg)
     return false;
 }
 
+/**
+ * @brief Check whether a register is valid for writing.
+ */
 bool AS5600_IsValidWriteReg(AS5600_t *as5600, AS5600_reg_t reg)
 {
     if (reg == AS5600_REG_ZPOS_H || reg == AS5600_REG_ZPOS_L || reg == AS5600_REG_MPOS_H || 
@@ -145,7 +193,7 @@ bool AS5600_IsValidWriteReg(AS5600_t *as5600, AS5600_reg_t reg)
         return true;
     }
     return false;
-}
+} 
 
 // -------------------------------------------------------------
 // ------------------ GPIO and ADC FUNCTIONS -------------------
@@ -200,43 +248,56 @@ void AS5600_SetGPIO(AS5600_t *as5600, uint8_t value)
 // -------------------------------------------------------------
 // ---------------------- CONFIG REGISTERS ---------------------
 // -------------------------------------------------------------
-
+/**
+ * @brief Set the start (ZPOS) register of the AS5600.
+ */
 void AS5600_SetStartPosition(AS5600_t *as5600, uint16_t start_position)
 {
     uint8_t write_buffer[] = {AS5600_REG_ZPOS_H, start_position >> 8, start_position};
     i2c_write(&as5600->i2c_handle, write_buffer, 3);
 }
 
+/**
+ * @brief Read the start position (ZPOS) register.
+ */
 void AS5600_GetStartPosition(AS5600_t *as5600, uint16_t *start_position)
 {
     i2c_read_reg(&as5600->i2c_handle, AS5600_REG_ZPOS_H, (uint8_t *)start_position, 2);
     *start_position = (*start_position << 8) | (*start_position >> 8);
 }
 
-void AS5600_SetStopPosition(AS5600_t *as5600, uint16_t stop_position)
-{
-    uint8_t write_buffer[] = {AS5600_REG_MPOS_H, stop_position >> 8, stop_position };
-    i2c_write(&as5600->i2c_handle, write_buffer, 3);
-}
 
+
+/**
+ * @brief Get the stop (MPOS) register value.
+ */
 void AS5600_GetStopPosition(AS5600_t *as5600, uint16_t *stop_position)
 {
     i2c_read_reg(&as5600->i2c_handle, AS5600_REG_MPOS_H, (uint8_t *)stop_position, 2);
     *stop_position = (*stop_position << 8) | (*stop_position >> 8);
 }
 
+/**
+ * @brief Set maximum angle register (MANG).
+ */
 void AS5600_SetMaxAngle(AS5600_t *as5600, uint16_t max_angle)
 {
     uint8_t write_buffer[] = {AS5600_REG_MANG_H, max_angle >> 8, max_angle};
     i2c_write(&as5600->i2c_handle, write_buffer, 3);
 }
 
+/**
+ * @brief Get maximum angle register value.
+ */
 void AS5600_GetMaxAngle(AS5600_t *as5600, uint16_t *max_angle)
 {
     i2c_read_reg(&as5600->i2c_handle, AS5600_REG_MANG_H, (uint8_t *)max_angle, 2);
     *max_angle = (*max_angle << 8) | (*max_angle >> 8);
 }
 
+/**
+ * @brief Write configuration register and update local config copy.
+ */
 void AS5600_SetConf(AS5600_t *as5600, AS5600_config_t conf)
 {
     as5600->conf = conf;
@@ -244,22 +305,24 @@ void AS5600_SetConf(AS5600_t *as5600, AS5600_config_t conf)
     i2c_write(&as5600->i2c_handle, write_buffer, 3);
 }
 
+/**
+ * @brief Read configuration register into provided structure.
+ */
 void AS5600_GetConf(AS5600_t *as5600, AS5600_config_t *conf)
 {
     i2c_read_reg(&as5600->i2c_handle, AS5600_REG_CONF_H, (uint8_t *)&conf->WORD, 2);    
     conf->WORD = (conf->WORD << 8) | (conf->WORD >> 8);
-}
+} 
 
 // -------------------------------------------------------------
 // ---------------------- OUTPUT REGISTERS ---------------------
 // -------------------------------------------------------------
 
-void AS5600_GetRawAngle(AS5600_t *as5600, uint16_t *raw_angle)
-{
-    i2c_read_reg(&as5600->i2c_handle, AS5600_REG_RAW_ANGLE_H, (uint8_t *)raw_angle, 2);
-    *raw_angle = (*raw_angle << 8) | (*raw_angle >> 8);
-}
 
+
+/**
+ * @brief Read processed angle register.
+ */
 void AS5600_GetAngle(AS5600_t *as5600, uint16_t *angle)
 {
     i2c_read_reg(&as5600->i2c_handle, AS5600_REG_ANGLE_H, (uint8_t *)angle, 2);
@@ -270,16 +333,25 @@ void AS5600_GetAngle(AS5600_t *as5600, uint16_t *angle)
 // ---------------------- STATUS REGISTERS ---------------------
 // -------------------------------------------------------------
 
+/**
+ * @brief Read STATUS register.
+ */
 void AS5600_GetStatus(AS5600_t *as5600, uint8_t *status)
 {
     i2c_read_reg(&as5600->i2c_handle, AS5600_REG_STATUS, status, 1);
 }
 
+/**
+ * @brief Read AGC register (automatic gain control value).
+ */
 void AS5600_GetAgc(AS5600_t *as5600, uint8_t *agc)
 {
     i2c_read_reg(&as5600->i2c_handle, AS5600_REG_AGC, agc, 1);
 }
 
+/**
+ * @brief Read magnitude register (signal strength of the magnetic field).
+ */
 void AS5600_GetMagnitude(AS5600_t *as5600, uint16_t *magnitude)
 {
     i2c_read_reg(&as5600->i2c_handle, AS5600_REG_MAGNITUDE_H, (uint8_t *)magnitude, 2);

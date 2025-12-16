@@ -4,6 +4,14 @@
 static const char *TAG = "INIT";
 
 
+/**
+ * @brief Initialize all sensors used in the system (AS5600, BNO055, ADC units).
+ *
+ * Configures shared ADC unit, per-sensor ADC channels and other sensor-specific
+ * setup. Returns an initialization status code.
+ *
+ * @return int INIT_SUCCESS on success, or an INIT_ERROR_* code on failure
+ */
 int init_sensors(void)
 {
 
@@ -127,6 +135,13 @@ int init_motors(void)
     return INIT_SUCCESS; // Return success if all motors are initialized successfully
 }
 
+/**
+ * @brief Create and initialize PID control blocks for each motor.
+ *
+ * Uses global pid_param for initial parameters.
+ *
+ * @return int INIT_SUCCESS on success, INIT_ERROR_PID if allocation failed
+ */
 int init_pid(void)
 {
 

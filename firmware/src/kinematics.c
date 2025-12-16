@@ -1,3 +1,9 @@
+/**
+ * @file kinematics.c
+ * @brief Implementations for forward and inverse kinematics.
+ *
+ * Contains helpers for computing wheel target speeds and reconstructing robot velocity.
+ */
 #include "kinematics.h"
 #include <math.h>
 

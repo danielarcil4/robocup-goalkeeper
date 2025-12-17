@@ -1,0 +1,19 @@
+var searchData=
+[
+  ['r_0',['R',['../struct_kalman1_d.html#ab1920e1f23af0985030874abc3fe3a53',1,'Kalman1D']]],
+  ['radius_1',['radius',['../struct___s_s_l___field_circular_arc.html#af5197e5ae3694de79969aa4150e87a14',1,'_SSL_FieldCircularArc']]],
+  ['reg_2',['reg',['../struct_a_s5600__t.html#a24497881ea3c1afb65d2c207999b3e29',1,'AS5600_t']]],
+  ['required_5ffield_5fcount_3',['required_field_count',['../structpb__msgdesc__s.html#a808dc05781908e8adca47fb1bb8f0a2c',1,'pb_msgdesc_s']]],
+  ['required_5ffield_5findex_4',['required_field_index',['../structpb__field__iter__s.html#ae798cdf67051ea24363ec13258ea31b3',1,'pb_field_iter_s']]],
+  ['resolution_5fbits_5',['resolution_bits',['../structmotor__brushless__t.html#ad87db44c59c178132827a114bd805d77',1,'motor_brushless_t']]],
+  ['reverse_5fchannel_6',['reverse_channel',['../structmotor__brushless__t.html#a0a2850c58410abf811fbd11df40b4f4c',1,'motor_brushless_t']]],
+  ['robot_5fcommand_7',['robot_command',['../main_8c.html#a4c0284887eaa20df6db2e2ce837c80c0',1,'robot_command:&#160;main.c'],['../task__inverse__kinematics_8c.html#a4c0284887eaa20df6db2e2ce837c80c0',1,'robot_command:&#160;main.c']]],
+  ['robot_5festimated_8',['robot_estimated',['../main_8c.html#a597b808de3a41ac00ac456233f172206',1,'robot_estimated:&#160;main.c'],['../task__read__sensors_8c.html#a597b808de3a41ac00ac456233f172206',1,'robot_estimated:&#160;main.c']]],
+  ['robot_5fid_9',['robot_id',['../struct___s_s_l___detection_robot.html#aa674f608983e713794c0a897faa92fe1',1,'_SSL_DetectionRobot']]],
+  ['robots_5fblue_10',['robots_blue',['../struct___s_s_l___detection_frame.html#a4c44191463f69debe9ca6b5d1180619b',1,'_SSL_DetectionFrame']]],
+  ['robots_5fblue_5fcount_11',['robots_blue_count',['../struct___s_s_l___detection_frame.html#a481bbb6ec0265a37a4d667ef302100e2',1,'_SSL_DetectionFrame']]],
+  ['robots_5fyellow_12',['robots_yellow',['../struct___s_s_l___detection_frame.html#a717b6de0a9397a8463f11092815daa96',1,'_SSL_DetectionFrame']]],
+  ['robots_5fyellow_5fcount_13',['robots_yellow_count',['../struct___s_s_l___detection_frame.html#a7d843c5e35d548e525658af2c1a975e7',1,'_SSL_DetectionFrame']]],
+  ['roll_14',['roll',['../struct_b_n_o055__t.html#a31a70bce6964c26cf717c3a44a46ebe5',1,'BNO055_t']]],
+  ['rst_5fpin_15',['rst_pin',['../struct_b_n_o055__t.html#a7937a05f50acf1dde14bc6ac1eb450a4',1,'BNO055_t']]]
+];

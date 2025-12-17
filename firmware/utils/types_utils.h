@@ -1,3 +1,12 @@
+<<<<<<< HEAD
+=======
+/**
+ * @file types_utils.h
+ * @brief Common type definitions used across the firmware (velocities, wheel speeds, sensor readings).
+ *
+ * Lightweight helper types used by kinematics and sensor tasks.
+ */
+>>>>>>> Cristian
 #ifndef TYPES_UTILS_H
 #define TYPES_UTILS_H
 

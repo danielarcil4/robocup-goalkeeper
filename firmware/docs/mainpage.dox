@@ -1,0 +1,11 @@
+/**
+ * @mainpage RoboCup Goalkeeper Firmware
+ *
+ * @section intro_sec Introduction
+ * This documentation contains API and design notes for the RoboCup Goalkeeper firmware.
+ * It is automatically generated with Doxygen. It covers the project's headers and source code
+ * (excluding generated protobuf files and third-party components).
+ *
+ * @section build Building documentation
+ * Run `./scripts/generate_docs.sh` (or the PowerShell script on Windows) to generate the HTML files in `docs/html/`.
+ */

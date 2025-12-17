@@ -68,7 +68,7 @@ int uart_init(uart_t *uart_config, uint32_t baud_rate, uint16_t buffer_size, int
 /**
  * @brief Initialize UART peripheral with default configuration
  * 
- * @param uart_t UART configuration structure
+ * @param uart_config UART configuration structure
  * @param baud_rate Baud rate for UART communication
  * @param buffer_size Buffer size for UART communication
  * @param gpio_tx GPIO pin for UART TX
@@ -285,9 +285,8 @@ void adc_read_raw(adc_t *adc, int *raw);
 /**
  * @brief Read the ADC value and convert it to millivolts
  * 
- * @param adc 
- * @param raw 
- * @param angle 
+ * @param adc ADC structure containing channel configuration
+ * @param mvolt Pointer to variable where the converted millivolts value will be stored
  */
 void adc_read_mvolt(adc_t *adc, uint16_t *mvolt);
 

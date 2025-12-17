@@ -1,0 +1,26 @@
+var struct___s_s_l___geometry_field_size =
+[
+    [ "ball_radius", "struct___s_s_l___geometry_field_size.html#a600865017e2f0c2f708cb6092c2b481d", null ],
+    [ "boundary_width", "struct___s_s_l___geometry_field_size.html#a4bbd58244d1046c389a4c94ec36ab3ed", null ],
+    [ "center_circle_radius", "struct___s_s_l___geometry_field_size.html#a684b96f388f3d00b3ba66d56bd749289", null ],
+    [ "field_arcs", "struct___s_s_l___geometry_field_size.html#a64027bb13ac8bb1e8746656b9f99191d", null ],
+    [ "field_length", "struct___s_s_l___geometry_field_size.html#a8545298c87834540ed386b248e1807ba", null ],
+    [ "field_lines", "struct___s_s_l___geometry_field_size.html#a73e456c721e7b1d7468639d3aa504dd6", null ],
+    [ "field_width", "struct___s_s_l___geometry_field_size.html#aa2b8eabb16f07e48ebae34488a2c9d3e", null ],
+    [ "goal_center_to_penalty_mark", "struct___s_s_l___geometry_field_size.html#abf75749501a362e77623c0b9296d0996", null ],
+    [ "goal_depth", "struct___s_s_l___geometry_field_size.html#a65fdf160476e0d455a4d0407a4d12706", null ],
+    [ "goal_height", "struct___s_s_l___geometry_field_size.html#af492dab79d140c0e07e71a7a1d7bdd1c", null ],
+    [ "goal_width", "struct___s_s_l___geometry_field_size.html#a486ae148bdf015b527e979a77979dcce", null ],
+    [ "has_ball_radius", "struct___s_s_l___geometry_field_size.html#a273efa6c6f83ef901c5ee55ce6c33a80", null ],
+    [ "has_center_circle_radius", "struct___s_s_l___geometry_field_size.html#a7f1ab10741d6f7c6c91c02f312663de1", null ],
+    [ "has_goal_center_to_penalty_mark", "struct___s_s_l___geometry_field_size.html#a3fc0de3027d72666070e1073cf4676d8", null ],
+    [ "has_goal_height", "struct___s_s_l___geometry_field_size.html#adef4d2db83e08d2edfd91eecf2ab0342", null ],
+    [ "has_line_thickness", "struct___s_s_l___geometry_field_size.html#a6587e53e68e34dc9db323a0a10694bc0", null ],
+    [ "has_max_robot_radius", "struct___s_s_l___geometry_field_size.html#a4a1444caf9826cece66b9d411d9b6709", null ],
+    [ "has_penalty_area_depth", "struct___s_s_l___geometry_field_size.html#ac66ec6fd23b696c1ef43d9da36a65cd7", null ],
+    [ "has_penalty_area_width", "struct___s_s_l___geometry_field_size.html#ab7471d1591390ea50e6cba9a96814ada", null ],
+    [ "line_thickness", "struct___s_s_l___geometry_field_size.html#a05bb0fd1c90db21d0ee66bb4b1ae0b21", null ],
+    [ "max_robot_radius", "struct___s_s_l___geometry_field_size.html#aeb65dc1971f0fb795fbe35e2d922b57a", null ],
+    [ "penalty_area_depth", "struct___s_s_l___geometry_field_size.html#ae6f35124fa7db92ffce14a3885cf8d3a", null ],
+    [ "penalty_area_width", "struct___s_s_l___geometry_field_size.html#a9f3011147aa62111b23cfd3f675f073b", null ]
+];

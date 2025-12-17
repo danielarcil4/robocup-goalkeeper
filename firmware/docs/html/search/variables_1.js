@@ -1,0 +1,27 @@
+var searchData=
+[
+  ['a1_0',['a1',['../struct___s_s_l___field_circular_arc.html#a8ce9a148deef3f8e09c0885154826d7d',1,'_SSL_FieldCircularArc']]],
+  ['a2_1',['a2',['../struct___s_s_l___field_circular_arc.html#a98b9a55cb70e8968d27782e325c3d464',1,'_SSL_FieldCircularArc']]],
+  ['acc_5froll_2',['acc_roll',['../struct___s_s_l___ball_model_straight_two_phase.html#a2571d1c70aba375a3bb3ca176e982075',1,'_SSL_BallModelStraightTwoPhase']]],
+  ['acc_5fslide_3',['acc_slide',['../struct___s_s_l___ball_model_straight_two_phase.html#adc86b1100c5cbeb74449c443912afda7',1,'_SSL_BallModelStraightTwoPhase']]],
+  ['accel_5foffset_5fx_4',['accel_offset_x',['../struct_b_n_o055___calib_profile__t.html#a74837ac3dbbaa02ba21f829409350bd1',1,'BNO055_CalibProfile_t']]],
+  ['accel_5foffset_5fy_5',['accel_offset_y',['../struct_b_n_o055___calib_profile__t.html#a709e6fa4b2f024b4fd5e464e9f7da7a4',1,'BNO055_CalibProfile_t']]],
+  ['accel_5foffset_5fz_6',['accel_offset_z',['../struct_b_n_o055___calib_profile__t.html#add0aed13c7dbae06f21f176d1f9a047a',1,'BNO055_CalibProfile_t']]],
+  ['accel_5fradius_7',['accel_radius',['../struct_b_n_o055___calib_profile__t.html#a8b2021b8e83407f1b4943d1ddabe8bf1',1,'BNO055_CalibProfile_t']]],
+  ['accel_5frev_5fid_8',['accel_rev_id',['../struct_b_n_o055__t.html#adb59d43e9ab5a01c8947f7e4a4ef9e40',1,'BNO055_t']]],
+  ['accel_5funit_9',['accel_unit',['../struct_b_n_o055___unit_settings__t.html#a726d32f4d6ba9cd0bfa376f5e4d7d166',1,'BNO055_UnitSettings_t']]],
+  ['adc_5fcali_5fhandle_10',['adc_cali_handle',['../structadc__t.html#a2d2bf2d726d736d1be436203924dc810',1,'adc_t']]],
+  ['adc_5fhandle_11',['adc_handle',['../struct_a_s5600__t.html#a4690ea275ec079905b0d0d93c92334f6',1,'AS5600_t::adc_handle'],['../structadc__t.html#a291ed929c9a812e6c715d8f420331ac0',1,'adc_t::adc_handle']]],
+  ['addr_12',['addr',['../structi2c__t.html#a4f1877db0ff76b9215fd76962e7313c5',1,'i2c_t']]],
+  ['alpha_13',['alpha',['../kinematics_8c.html#ae4c71db49583933876e6d1034b4bed2b',1,'alpha:&#160;kinematics.c'],['../kinematics__test_8c.html#ae4c71db49583933876e6d1034b4bed2b',1,'alpha:&#160;kinematics_test.c']]],
+  ['angle_5fdeg_14',['angle_deg',['../struct_encoder_reading.html#a0ad6a1bbb3840e2b5657296d1a894e3c',1,'EncoderReading']]],
+  ['aplus_15',['Aplus',['../kinematics_8c.html#a2528161ccafadb0062a4db6dd4328298',1,'Aplus:&#160;kinematics.c'],['../kinematics__test_8c.html#a2528161ccafadb0062a4db6dd4328298',1,'Aplus:&#160;kinematics_test.c']]],
+  ['aplus_5finitialized_16',['Aplus_initialized',['../kinematics_8c.html#ab5070eb5226253fc3de10610ee6a41a9',1,'Aplus_initialized:&#160;kinematics.c'],['../kinematics__test_8c.html#ab5070eb5226253fc3de10610ee6a41a9',1,'Aplus_initialized:&#160;kinematics_test.c']]],
+  ['area_17',['area',['../struct___s_s_l___detection_ball.html#a09f2aaef12afcb25de9e29f6fbfdc4d0',1,'_SSL_DetectionBall']]],
+  ['arg_18',['arg',['../structpb__callback__s.html#a3cc8f3ad6ff8c967d392a7b1f1451a1b',1,'pb_callback_s::arg'],['../structpb__extension__type__s.html#a814b085ac56b866b4ae74795277809a2',1,'pb_extension_type_s::arg']]],
+  ['array_5fsize_19',['array_size',['../structpb__field__iter__s.html#a98960f02413660d2dd6ef005f4937afe',1,'pb_field_iter_s']]],
+  ['as5600_20',['as5600',['../init_8h.html#a3d0e8e5eab650e54ed355663b9384b59',1,'as5600:&#160;main.c'],['../main_8c.html#a3d0e8e5eab650e54ed355663b9384b59',1,'as5600:&#160;main.c'],['../task__read__sensors_8c.html#a3d0e8e5eab650e54ed355663b9384b59',1,'as5600:&#160;main.c']]],
+  ['ax_21',['ax',['../struct_b_n_o055__t.html#a55d0d208dc240aa966e397f943cfb683',1,'BNO055_t']]],
+  ['ay_22',['ay',['../struct_b_n_o055__t.html#a72c4563f61aefadba73c76e4cc84aee2',1,'BNO055_t']]],
+  ['az_23',['az',['../struct_b_n_o055__t.html#a717324d2e0b0fd72a878a395d7b503ac',1,'BNO055_t']]]
+];

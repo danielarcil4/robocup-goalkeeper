@@ -1,3 +1,11 @@
+/**
+ * @file motor.c
+ * @brief Motor driver implementation using ESP32 LEDC PWM and helper routines.
+ *
+ * Implements initialization, speed control, stopping and calibration helpers
+ * for brushless motors.
+ */
+
 #include "motor.h"
 #include "esp_log.h"
 #include "freertos/FreeRTOS.h"
@@ -6,6 +14,11 @@
 
 #define TAG "MOTOR_DRIVER"
 
+/**
+ * @brief Initialize a brushless motor instance and configure LEDC channels.
+ *
+ * Prepares timers and LEDC channels used for speed and reverse control.
+ */
 bool motor_init(motor_brushless_t *motor) {
     if (!motor || motor->max_speed_percent > 100) {
         ESP_LOGE(TAG, "Invalid motor configuration");
@@ -60,6 +73,12 @@ bool motor_init(motor_brushless_t *motor) {
     return true;
 }
 
+/**
+ * @brief Set motor signed speed percentage.
+ *
+ * Negative values indicate reverse direction. The function applies min/max
+ * thresholds and computes PWM duty cycles accordingly.
+ */
 void motor_set_speed(motor_brushless_t *motor, float signed_speed_percent)
 {
     if (!motor) return;
@@ -96,6 +115,9 @@ void motor_set_speed(motor_brushless_t *motor, float signed_speed_percent)
     motor->is_reversed = reverse;
 }
 
+/**
+ * @brief Stop the motor by setting speed PWM to minimum and reverse to OFF.
+ */
 void motor_stop(motor_brushless_t *motor) {
     if (!motor) return;
 
@@ -108,6 +130,11 @@ void motor_stop(motor_brushless_t *motor) {
     motor->is_reversed = false;
 }
 
+/**
+ * @brief Calibrate a single motor by running at minimum speed for a period.
+ *
+ * Used to bring the motor to a known state during initialization.
+ */
 void motor_calibration(motor_brushless_t *motor)
 {
     if (!motor) return;
@@ -121,6 +148,9 @@ void motor_calibration(motor_brushless_t *motor)
     vTaskDelay(pdMS_TO_TICKS(3000));
 }
 
+/**
+ * @brief Calibrate three brushless motors sequentially.
+ */
 void motor_calibration3(motor_brushless_t *motor_0, motor_brushless_t *motor_1, motor_brushless_t *motor_2)
 {
     if (!motor_0 || !motor_1 || !motor_2) return;

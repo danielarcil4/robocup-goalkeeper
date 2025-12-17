@@ -12,13 +12,7 @@
 #include "bno055.h"
 
 /**
- * @brief Convert the data from the BNO055 sensor to float
- * 
- * @param bno055 Pointer to the BNO055 sensor structure
- * @param data Data in bytes from the BNO055 sensor
- * @param x Float pointer to store the X value
- * @param y Float pointer to store the Y value
- * @param z Float pointer to store the Z value
+ * @brief Convert accelerometer raw bytes to float according to unit settings
  */
 void BNO055_ConvertData_Accel(BNO055_t *bno055, uint8_t *data, float *x, float *y, float *z)
 {
@@ -41,13 +35,7 @@ void BNO055_ConvertData_Accel(BNO055_t *bno055, uint8_t *data, float *x, float *
 }
 
 /**
- * @brief Convert the data Gyroscope from the BNO055 sensor to float
- * 
- * @param bno055 Pointer to the BNO055 sensor structure
- * @param data Data in bytes from the BNO055 sensor
- * @param x Float pointer to store the X value
- * @param y Float pointer to store the Y value
- * @param z Float pointer to store the Z value
+ * @brief Convert gyroscope raw bytes to float according to unit settings
  */
 void BNO055_ConvertData_Gyro(BNO055_t *bno055, uint8_t *data, float *x, float *y, float *z)
 {
@@ -69,13 +57,7 @@ void BNO055_ConvertData_Gyro(BNO055_t *bno055, uint8_t *data, float *x, float *y
 }
 
 /**
- * @brief Convert the data Euler angles from the BNO055 sensor to float
- * 
- * @param bno055 Pointer to the BNO055 sensor structure
- * @param data Data in bytes from the BNO055 sensor
- * @param yaw Float pointer to store the yaw value
- * @param pitch Float pointer to store the pitch value
- * @param roll Float pointer to store the roll value
+ * @brief Convert Euler angle raw bytes to float according to unit settings
  */
 void BNO055_ConvertData_Euler(BNO055_t *bno055, uint8_t *data, float *yaw, float *pitch, float *roll)
 {
@@ -124,6 +106,14 @@ void BNO055_ConvertData_Mag(BNO055_t *bno055, uint8_t *data, float *x, float *y,
     }
 }
 
+<<<<<<< HEAD
+=======
+/**
+ * @brief Initialize the BNO055 IMU sensor using I2C.
+ *
+ * Sets operation mode, power mode, units and reads sensor information.
+ */
+>>>>>>> Cristian
 int8_t BNO055_Init(BNO055_t *bno055, uint8_t sda, uint8_t scl, uint8_t i2c_num)
 {
     int8_t success = BNO055_SUCCESS;
@@ -235,6 +225,9 @@ int8_t BNO055_GetCalibrationStatus(BNO055_t *bno055)
     return BNO055_SUCCESS;
 }
 
+/**
+ * @brief Read and populate device information fields (chip id, rev ids) from the BNO055.
+ */
 int8_t BNO055_GetInfo(BNO055_t *bno055)
 {
 
@@ -246,7 +239,11 @@ int8_t BNO055_GetInfo(BNO055_t *bno055)
     // // Get information from the BNO055 sensor
     uint8_t data_read[8] = {0};
     int8_t success = 0;
+<<<<<<< HEAD
     //success = BNO055_Read_Uart(bno055, BNO055_CHIP_ID_ADDR, data_read, 8, 16);
+=======
+    //success = BNO055_Read_Uart(bno55, BNO055_CHIP_ID_ADDR, data_read, 8, 16);
+>>>>>>> Cristian
     success = BNO055_Read(bno055, BNO055_CHIP_ID_ADDR, data_read, 8);
 
     printf("Data read: ");

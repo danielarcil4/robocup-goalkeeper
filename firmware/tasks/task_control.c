@@ -1,3 +1,7 @@
+/**
+ * @file task_control.c
+ * @brief Control loop task responsible for running PIDs and commanding motors.
+ */
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "freertos/semphr.h"
@@ -53,7 +57,7 @@ void vTaskControl(void *pvParameters) {
             xSemaphoreGive(xSensorDataMutex);
         }
 
-        // pid_compute(pid, encoder.omega_rad, &out_pid_motor_0);
+        //pid_compute(pid, encoder.omega_rad, &out_pid_motor_0);
         if (xSemaphoreTake(xPidMutex, portMAX_DELAY) == pdTRUE) {
             for (int i = 0; i < 3; i++) {
                 pid_compute(pid[i], encoder[i].omega_rad, &out_pid_motor[i]);
@@ -66,18 +70,31 @@ void vTaskControl(void *pvParameters) {
             motor_set_speed(&motor[i], MOTOR_DIRECTION_FORWARD(i)*out_pid_motor[i]);
         }
 
+<<<<<<< HEAD
         // // Print the output every 20 ms
+=======
+        // Print the output every 20 ms
+>>>>>>> Cristian
         // if ((timestamp_us % 20000) == 0) { // cada 20 ms
         //     printf("I,%" PRIu32 ",%.4f,%.4f,%.4f,%.4f,%.4f,%.4f\r\n", timestamp_us, encoder[0].omega_rad, encoder[1].omega_rad, encoder[2].omega_rad, out_pid_motor[0], out_pid_motor[1], out_pid_motor[2]);
         // }
 
+<<<<<<< HEAD
         // timestamp_us += CONTROL_TASK_PERIOD_MS * 1000; // Increment timestamp by task period in microseconds
+=======
+        timestamp_us += CONTROL_TASK_PERIOD_MS * 1000; // Increment timestamp by task period in microseconds
+>>>>>>> Cristian
 
         // Wait before next check (optional)
         xTaskDelayUntil(&xLastWakeTime, pdMS_TO_TICKS(CONTROL_TASK_PERIOD_MS));
     }
 }
 
+/**
+ * @brief Initialize UART driver and configure RX interrupt handler.
+ *
+ * Sets UART parameters and installs the driver used by the parser tasks.
+ */
 void uart_init_task() {
     uart_config_t uart_config = {
         .baud_rate = 115200,
@@ -93,6 +110,13 @@ void uart_init_task() {
     uart_enable_rx_intr(UART_NUM_0);
 }
 
+/**
+ * @brief UART event handler task that accumulates received bytes and notifies parser.
+ *
+ * Reads bytes from UART and upon newline triggers the parser task to process the line.
+ *
+ * @param arg Unused
+ */
 void vTaskUartHandler(void *arg) {
     uart_event_t event;
     char d;
@@ -117,6 +141,15 @@ void vTaskUartHandler(void *arg) {
     }
 }
 
+<<<<<<< HEAD
+=======
+/**
+ * @brief Parser task for UART commands.
+ *
+ * Waits to be notified by `vTaskUartHandler` and parses a simple string containing
+ * four floats: kp ki kd setpoint. The parsed values are applied to the PID controllers.
+ */
+>>>>>>> Cristian
 void vTaskUartParser(void *arg) {
     float kp, ki, kd, setpoint;
     char parsed[128];
@@ -162,4 +195,8 @@ void vTaskUartParser(void *arg) {
             printf("Expected format: {\"default\":\"kp ki kd setpoint\"}\n");
         }
     }
+<<<<<<< HEAD
 }
+=======
+} 
+>>>>>>> Cristian

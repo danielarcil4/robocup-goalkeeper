@@ -1,3 +1,7 @@
+/**
+ * @file task_read_sensors.c
+ * @brief Task that reads sensors and produces filtered encoder/IMU data.
+ */
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "freertos/semphr.h"
@@ -7,6 +11,10 @@
 #include "as5600.h"      ///< AS5600 encoder driver
 #include "config_utils.h" ///< Configuration utilities
 #include "types_utils.h"
+<<<<<<< HEAD
+=======
+#include "kinematics.h"  ///< Inverse kinematics functions
+>>>>>>> Cristian
 
 #include <stdint.h>
 #include <math.h>
@@ -21,9 +29,14 @@ typedef struct {
 extern RawSensorData sensor_data;
 extern SemaphoreHandle_t xSensorDataMutex;
 extern SemaphoreHandle_t xADCMutex; // Mutex for ADC operations
+extern SemaphoreHandle_t xEstimatedDataMutex; // Mutex for estimated data
 
 // External AS5600 sensor instance
 extern AS5600_t as5600[3]; ///< Array of AS5600 sensors
+
+// External robot velocity estimate
+extern Velocity robot_estimated;         ///< Estimated velocities from sensors
+
 /// Optional handle to manage task externally
 TaskHandle_t xTaskReadSensorsHandle = NULL;
 
@@ -100,9 +113,12 @@ static inline float compute_angular_velocity(angular_velocity_t *sensor, float a
 }
 
 /**
- * @brief Task that reads encoder and computes angular velocity periodically.
- * 
- * @param pvParameters Unused
+ * @brief Task that reads encoders, estimates angular velocity and updates shared state.
+ *
+ * Runs periodically at SENSOR_TASK_PERIOD_MS and updates `sensor_data` and
+ * `robot_estimated` with filtered values.
+ *
+ * @param pvParameters FreeRTOS task parameter (unused)
  */
 /**
  * @brief Task that reads encoder and computes angular velocity periodically.
@@ -131,8 +147,23 @@ void vTaskReadSensors(void *pvParameters)
         kalman_init(&kalman_filters[i], SENSOR_KALMAN_Q, SENSOR_KALMAN_R); // Initialize Kalman filter for each encoder
     }
 
+<<<<<<< HEAD
     // uint32_t timestamp_us = 1000000; // 1 second in microseconds
     // int print_counter = 0;
+=======
+    WheelSpeeds wheel_speeds_stimated = {0}; // Wheel speeds estimated from sensors
+    Velocity speed_estimated = {0}; // Estimated robot speed from sensors
+
+
+    // Kalman filters for each encoder
+    Kalman1D kalman_filters[3];
+    for (int i = 0; i < 3; i++) {
+        kalman_init(&kalman_filters[i], SENSOR_KALMAN_Q, SENSOR_KALMAN_R); // Initialize Kalman filter for each encoder
+    }
+
+    uint32_t timestamp_us = 1000000; // 1 second in microseconds
+    int print_counter = 0;
+>>>>>>> Cristian
 
     while (true) {
         //Take mutex to read the encoder angle
@@ -153,7 +184,26 @@ void vTaskReadSensors(void *pvParameters)
             omega_rad[i] = compute_angular_velocity(&encoder_state[i], angle_deg[i], now_us);
             // Apply low-pass filter to smooth the angle Vn = beta * Vn-1 + (1 - beta) * Vn
             // filtered_omega_rad[i] = beta * filtered_omega_rad[i] + (1.0f - beta) * omega_rad[i];
+<<<<<<< HEAD
             filtered_omega_rad[i] = kalman_update(&kalman_filters[i], omega_rad[i]);
+=======
+            filtered_omega_rad[i] = SENSOR_ANGULAR_DIRECTION_FORWARD(i) * kalman_update(&kalman_filters[i], omega_rad[i]);
+        }
+
+        // Calculate the estimated velocities based on the angular velocities with forward kinematics
+        wheel_speeds_stimated.phi_dot[0] = filtered_omega_rad[0]; // φ̇_1
+        wheel_speeds_stimated.phi_dot[1] = filtered_omega_rad[1]; // φ̇_2  esto era 2
+        wheel_speeds_stimated.phi_dot[2] = filtered_omega_rad[2]; // φ̇_3  esto era 1
+        compute_forward_kinematics(wheel_speeds_stimated, &speed_estimated);
+        
+
+        // Update the robot estimated velocities
+        if (xSemaphoreTake(xEstimatedDataMutex, portMAX_DELAY) == pdTRUE) {
+            robot_estimated.vx = speed_estimated.vx;
+            robot_estimated.vy = speed_estimated.vy;
+            robot_estimated.wz = speed_estimated.wz;
+            xSemaphoreGive(xEstimatedDataMutex);
+>>>>>>> Cristian
         }
         
 
@@ -161,15 +211,21 @@ void vTaskReadSensors(void *pvParameters)
         if (xSemaphoreTake(xSensorDataMutex, portMAX_DELAY) == pdTRUE) {
             for (int i = 0; i < 3; i++) {
                 sensor_data.encoders[i].angle_deg = angle_deg[i];
-                sensor_data.encoders[i].omega_rad = SENSOR_ANGULAR_DIRECTION_FORWARD(i) * filtered_omega_rad[i]; // Forward direction
+                sensor_data.encoders[i].omega_rad = filtered_omega_rad[i]; // Forward direction
             }
             xSemaphoreGive(xSensorDataMutex);
         }
         
 
+<<<<<<< HEAD
         // Print the result for debugging
         // if (++print_counter >= 10) {
         //     printf("I,%" PRIu32 ",%.4f,%.4f,%.4f,%.4f,%.4f,%.4f\r\n", timestamp_us, angle_deg[0], angle_deg[1], angle_deg[2], SENSOR_ANGULAR_DIRECTION_FORWARD(0)*filtered_omega_rad[0], SENSOR_ANGULAR_DIRECTION_FORWARD(1)*filtered_omega_rad[1], SENSOR_ANGULAR_DIRECTION_FORWARD(2)*filtered_omega_rad[2]);
+=======
+        // // Print the result for debugging
+        // if (++print_counter >= 10) {
+        //     printf("I,%" PRIu32 ",%.4f,%.4f,%.4f,%.4f,%.4f,%.4f\r\n", timestamp_us, angle_deg[0], angle_deg[1], angle_deg[2], filtered_omega_rad[0], filtered_omega_rad[1], filtered_omega_rad[2]);
+>>>>>>> Cristian
         //     print_counter = 0;
         // }
         // timestamp_us += SENSOR_TASK_PERIOD_MS * 1000; // Increment timestamp by task period in microseconds

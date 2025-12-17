@@ -1,0 +1,7 @@
+SSL_DetectionFrame.balls max_count:10
+SSL_DetectionFrame.robots_blue max_count:16
+SSL_DetectionFrame.robots_yellow max_count:16
+SSL_GeometryFieldSize.field_lines max_count:30
+SSL_GeometryFieldSize.field_arcs max_count:15
+SSL_GeometryData.calib max_count:8
+*.name max_size:64

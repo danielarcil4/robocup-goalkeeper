@@ -1,9 +1,28 @@
+/**
+ * @file config_utils.h
+ * @brief Compile-time configuration constants and macros for the RoboCup Goalkeeper firmware.
+ *
+ * This header centralizes robot geometry, motor parameters, PID defaults,
+ * task periods, sensor tuning, and network settings used throughout the codebase.
+ *
+ * @note Auto-documented in English for Doxygen
+ *
+ * @defgroup config Configuration
+ * @brief Build-time configuration constants and macros
+ * @{ 
+ */
+
 #ifndef CONFIG_UTILS_H
 #define CONFIG_UTILS_H
 
 #include <math.h>
 
+<<<<<<< HEAD
 #define ROBOT_NAME "RoboCupGoalkeeper" // Name of the robot
+=======
+/** @brief Robot name (null-terminated) */
+#define ROBOT_NAME "RoboCupGoalkeeper"
+>>>>>>> Cristian
 #define ROBOT_VERSION "1.0" // Version of the robot firmware
 #define ROBOT_BODY_RADIUS 0.08f // Radius of the robot in meters
 #define ROBOT_WHEEL_RADIUS 0.03f // Radius of the robot wheels in meters
@@ -20,12 +39,17 @@
 
 
 /* PID MOTOR configuration */
+<<<<<<< HEAD
 #define PID_MOTOR_KP 0.1f                // Proportional gain
 #define PID_MOTOR_KI 0.006f                // Integral gain
+=======
+#define PID_MOTOR_KP 0.1f//0.1                // Proportional gain
+#define PID_MOTOR_KI 0.006f//0.0006f                // Integral gain
+>>>>>>> Cristian
 #define PID_MOTOR_KD 0.0f               // Derivative gain
 #define PID_MOTOR_BETA 0.0f              // Beta filter coefficient for derivative term
-#define PID_MOTOR_MAX_OUTPUT 80.0f      // Maximum output of PID controller
-#define PID_MOTOR_MIN_OUTPUT -80.0f     // Minimum output of PID controller
+#define PID_MOTOR_MAX_OUTPUT 50.0f      // Maximum output of PID controller
+#define PID_MOTOR_MIN_OUTPUT -50.0f     // Minimum output of PID controller
 
 
 /** @brief Configuration for sensor reading task
@@ -51,4 +75,20 @@
 #define KINEMATICS_TASK_PERIOD_MS 10 // Inverse kinematics task period in milliseconds
 
 #define BNO055_I2C_MASTER_NUM 0
+<<<<<<< HEAD
+=======
+
+/* CONFIGURAR TU RED WIFI AQUÍ */
+#define WIFI_SSID      ""
+#define WIFI_PASS      ""
+
+#define MULTICAST_IPV4_ADDR "224.5.23.2"
+#define MULTICAST_PORT 10006
+#define MAX_PACKET_SIZE 8192
+
+#define WIFI_CONNECTED_BIT BIT0
+#define WIFI_FAIL_BIT      BIT1
+
+/** @} */ /* end of defgroup config */
+>>>>>>> Cristian
 #endif // CONFIG_UTILS_H

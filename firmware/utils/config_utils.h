@@ -17,12 +17,8 @@
 
 #include <math.h>
 
-<<<<<<< HEAD
-#define ROBOT_NAME "RoboCupGoalkeeper" // Name of the robot
-=======
 /** @brief Robot name (null-terminated) */
 #define ROBOT_NAME "RoboCupGoalkeeper"
->>>>>>> Cristian
 #define ROBOT_VERSION "1.0" // Version of the robot firmware
 #define ROBOT_BODY_RADIUS 0.08f // Radius of the robot in meters
 #define ROBOT_WHEEL_RADIUS 0.03f // Radius of the robot wheels in meters
@@ -39,13 +35,8 @@
 
 
 /* PID MOTOR configuration */
-<<<<<<< HEAD
-#define PID_MOTOR_KP 0.1f                // Proportional gain
-#define PID_MOTOR_KI 0.006f                // Integral gain
-=======
 #define PID_MOTOR_KP 0.1f//0.1                // Proportional gain
 #define PID_MOTOR_KI 0.006f//0.0006f                // Integral gain
->>>>>>> Cristian
 #define PID_MOTOR_KD 0.0f               // Derivative gain
 #define PID_MOTOR_BETA 0.0f              // Beta filter coefficient for derivative term
 #define PID_MOTOR_MAX_OUTPUT 50.0f      // Maximum output of PID controller
@@ -75,8 +66,6 @@
 #define KINEMATICS_TASK_PERIOD_MS 10 // Inverse kinematics task period in milliseconds
 
 #define BNO055_I2C_MASTER_NUM 0
-<<<<<<< HEAD
-=======
 
 /* CONFIGURAR TU RED WIFI AQUÍ */
 #define WIFI_SSID      ""
@@ -90,5 +79,4 @@
 #define WIFI_FAIL_BIT      BIT1
 
 /** @} */ /* end of defgroup config */
->>>>>>> Cristian
 #endif // CONFIG_UTILS_H

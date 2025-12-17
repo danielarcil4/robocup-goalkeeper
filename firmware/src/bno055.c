@@ -106,14 +106,11 @@ void BNO055_ConvertData_Mag(BNO055_t *bno055, uint8_t *data, float *x, float *y,
     }
 }
 
-<<<<<<< HEAD
-=======
 /**
  * @brief Initialize the BNO055 IMU sensor using I2C.
  *
  * Sets operation mode, power mode, units and reads sensor information.
  */
->>>>>>> Cristian
 int8_t BNO055_Init(BNO055_t *bno055, uint8_t sda, uint8_t scl, uint8_t i2c_num)
 {
     int8_t success = BNO055_SUCCESS;
@@ -239,11 +236,7 @@ int8_t BNO055_GetInfo(BNO055_t *bno055)
     // // Get information from the BNO055 sensor
     uint8_t data_read[8] = {0};
     int8_t success = 0;
-<<<<<<< HEAD
-    //success = BNO055_Read_Uart(bno055, BNO055_CHIP_ID_ADDR, data_read, 8, 16);
-=======
     //success = BNO055_Read_Uart(bno55, BNO055_CHIP_ID_ADDR, data_read, 8, 16);
->>>>>>> Cristian
     success = BNO055_Read(bno055, BNO055_CHIP_ID_ADDR, data_read, 8);
 
     printf("Data read: ");

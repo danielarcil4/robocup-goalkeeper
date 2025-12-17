@@ -1,12 +1,9 @@
-<<<<<<< HEAD
-=======
 /**
  * @file kinematics.h
  * @brief Robot kinematics helpers (forward and inverse kinematics).
  *
  * Functions to convert between robot linear/angular velocities and individual wheel speeds.
  */
->>>>>>> Cristian
 #ifndef KINEMATICS_H
 #define KINEMATICS_H
 

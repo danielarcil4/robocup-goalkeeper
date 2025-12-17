@@ -213,15 +213,10 @@ int pid_update_set_point(pid_block_handle_t pid, float set_point)
     if (!pid) {
         return PID_ERR_INVALID_ARG; // Invalid argument
     }
-<<<<<<< HEAD
-
-    pid->set_point = set_point;
-=======
     uint32_t timestamp_us = 500000;
     pid->set_point = set_point;
     
     //printf("IK,%lu,%.4f,%.4f \r\n", timestamp_us, set_point, pid->set_point);
->>>>>>> Cristian
     // pid->integral_err = 0; // Reset integral error when set point changes
     // pid->previous_err1 = 0; // Reset previous errors
     // pid->previous_err2 = 0;
@@ -231,15 +226,12 @@ int pid_update_set_point(pid_block_handle_t pid, float set_point)
     return PID_OK;
 }
 
-<<<<<<< HEAD
-=======
 /**
  * @brief Reset internal integrator and history state of a PID block.
  *
  * Clears accumulated integral and previous error/output values so the block
  * restarts without older state influencing the next outputs.
  */
->>>>>>> Cristian
 int pid_reset_block(pid_block_handle_t pid)
 {
     if (!pid) {

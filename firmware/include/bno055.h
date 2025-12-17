@@ -145,23 +145,16 @@ typedef struct {
  * This function initializes the BNO055 sensor with the specified I2c (or uart) configuration.
  * 
  * @param bno055 Pointer to the BNO055 sensor structure
-<<<<<<< HEAD
-=======
  * @param sda GPIO pin used for SDA
  * @param scl GPIO pin used for SCL
  * @param i2c_num I2C bus number to use
->>>>>>> Cristian
  */
 int8_t BNO055_Init(BNO055_t *bno055, uint8_t sda, uint8_t scl, uint8_t i2c_num);
 
 /**
  * @brief Reset the BNO055 sensor
  * 
-<<<<<<< HEAD
- * @param bno055 
-=======
  * @param bno055 Pointer to the BNO055 sensor structure
->>>>>>> Cristian
  */
 void BNO055_Reset(BNO055_t *bno055);
 
@@ -278,16 +271,6 @@ void BNO055_GetMagnetometer(BNO055_t *bno055, float *mx , float *my , float *mz)
  * @param data Pointer to the data to write
  * @param len Length of the data to write in bytes
  */
- int8_t BN055_Write_Uart(BNO055_t *bno055, uint8_t reg, uint8_t *data, uint8_t len);
-
-/**
- * @brief Fuctión to send data to the BNO055 sensor for I2C communication
- * 
- * @param bno055
- * @param reg Address of the register to write in HEX
- * @param data Pointer to the data to write
- * @param len Length of the data to write in bytes
- */
 int8_t BN055_Write(BNO055_t *bno055, uint8_t reg, uint8_t *data, uint8_t len);
 
 /**
@@ -305,11 +288,7 @@ int8_t BNO055_Read_Uart(BNO055_t *bno055, uint8_t reg, uint8_t *data, uint8_t le
 /**
  * @brief Function to read data from the BNO055 sensor for I2C communication
  * 
-<<<<<<< HEAD
- * @param bno055
-=======
  * @param bno055 Pointer to the BNO055 sensor
->>>>>>> Cristian
  * @param reg Address of the register to read in HEX
  * @param data Pointer to the data to read
  * @param len Length of the data to read in bytes
@@ -336,11 +315,7 @@ int8_t BNO055_ReadAll(BNO055_t *bno055);
 /**
  * @brief Read all data from the BNO055 sensor with I2C (or uart) with Lineal Acceleration
  * 
-<<<<<<< HEAD
- * @param bno055
-=======
  * @param bno055 Pointer to the BNO055 sensor
->>>>>>> Cristian
  * @return int8_t 
  */
 int8_t BNO055_ReadAll_Lineal(BNO055_t *bno055);
